@@ -4,22 +4,22 @@ public class Persona {
     private String nombre;
     private String apellido;
     private String dni;
-    private String fechaIngreso;
+    private int fechaIngreso;
     private double sueldoBruto;
-    private double dsctoAfp;
+    private double dsctoAfp = 0.1321;
     private double precioHora;
     private int horasExtras;
+    private int faltas;
 
 
-    public Persona(String nombre, String apellido, String dni, String fechaIngreso, double sueldoBruto, double dsctoAfp, double precioHora, int horasExtras) {
+    public Persona(String nombre, String apellido, String dni, int fechaIngreso, double sueldoBruto, int horasExtras, int faltas) {
         this.nombre = nombre;
         this.apellido = apellido;
         this.dni = dni;
         this.fechaIngreso = fechaIngreso;
         this.sueldoBruto = sueldoBruto;
-        this.dsctoAfp = dsctoAfp;
-        this.precioHora = precioHora;
         this.horasExtras = horasExtras;
+        this.faltas = faltas;
     }
 
 
@@ -47,11 +47,11 @@ public class Persona {
         this.dni = dni;
     }
 
-    public String getFechaIngreso() {
+    public int getFechaIngreso() {
         return fechaIngreso;
     }
 
-    public void setFechaIngreso(String fechaIngreso) {
+    public void setFechaIngreso(int fechaIngreso) {
         this.fechaIngreso = fechaIngreso;
     }
 
@@ -68,7 +68,7 @@ public class Persona {
     }
 
     public void setDsctoAfp(double dsctoAfp) {
-        this.dsctoAfp = dsctoAfp;
+        this.dsctoAfp = sueldoBruto * dsctoAfp;
     }
 
     public double getPrecioHora() {
@@ -87,6 +87,33 @@ public class Persona {
         this.horasExtras = horasExtras;
     }
 
+    public int getFaltas() {
+        return faltas;
+    }
 
+    public void setFaltas(int faltas) {
+        this.faltas = faltas;
+    }
 
+    public double calcularCTS(double sueldoBruto) {
+        return sueldoBruto/6;
+    }
+
+    public double calcularBonoAntiguedad(int fechaIngreso) {
+        int anios = 2022-fechaIngreso;
+
+        return anios * 100.0;
+    }
+
+    public double calcularDsctoFaltas(int faltas) {
+        return faltas*180;
+    }
+
+    public double calcularDsctoAfp() {
+        return getDsctoAfp()*sueldoBruto;
+    }
+
+    public double calcularSueldoNeto() {
+        return sueldoBruto - (calcularDsctoAfp() +  calcularDsctoFaltas(faltas));
+    }
 }
